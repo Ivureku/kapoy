@@ -41,64 +41,7 @@
 						<div>
 							<?php
 
-							$hostname = "localhost";
-							$database = "shopee";
-							$db_login = "root";
-							$db_pass = "";
-							$dlink = mysqli_connect($hostname, $db_login, $db_pass, $database) or die("Could not connect");
 
-							$products_cart = isset($_COOKIE['products_cart']) ? unserialize($_COOKIE['products_cart']) : array();
-							print_r($products_cart);
-							echo '<table>';
-							echo '<tr><th>Name</th><th>Description</th><th>Image</th><th>Quantity</th><th>Price</th><th>Total</th></tr>';
-
-							// Loop through products in cart
-							foreach ($products_cart as $product) {
-								$product_id = isset($product[0]) ? $product[0] : '';
-								$product_quantity = isset($product[7]) ? $product[7] : '';
-
-								// Fetch product details from database
-								$sql = "SELECT * FROM products WHERE id = '$product_id'";
-								$result = mysqli_query($dlink, $sql);
-
-								if ($result) {
-									$row = mysqli_fetch_assoc($result);
-									$product_name = $row['name'];
-									$product_description = $row['description'];
-									$product_image = $row['image'];
-									$product_price = $row['price'];
-
-									// Calculate total price for product
-									$product_total = intval($product_quantity) * floatval($product_price);
-
-									// Output table row for product
-									echo '<tr>';
-									echo '<td>' . $product_name . '</td>';
-									echo '<td>' . $product_description . '</td>';
-									echo '<td><img src="' . $product_image . '"></td>';
-									echo '<td>
-										<form method="post">
-											<input type="hidden" name="product_id" value="' . $product_id . '">
-											<select name="quantity" onchange="this.form.submit()">
-												<option value="1" ' . ($product_quantity == 1 ? 'selected' : '') . '>1</option>
-												<option value="2" ' . ($product_quantity == 2 ? 'selected' : '') . '>2</option>
-												<option value="3" ' . ($product_quantity == 3 ? 'selected' : '') . '>3</option>
-												<option value="4" ' . ($product_quantity == 4 ? 'selected' : '') . '>4</option>
-												<option value="5" ' . ($product_quantity == 5 ? 'selected' : '') . '>5</option>
-											</select>
-										</form>
-									</td>';
-									echo '<td>$' . number_format($product_price, 2) . '</td>';
-									echo '<td>$' . number_format($product_total, 2) . '</td>';
-									echo '</tr>';
-								}
-							}
-
-							// Output table footer
-							echo '</table>';
-
-							$carted_prod = isset($_REQUEST['product_id']) ? $_REQUEST['product_id'] : null;
-							$carted_quantity = isset($_REQUEST['quantity']) ? (int) $_REQUEST['quantity'] : 1;
 							?>
 						</div>
 					</div>
