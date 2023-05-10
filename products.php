@@ -31,7 +31,7 @@
 					?>
 				</li>
 				<li class="logout">
-					<a href="cart.php"><span>Cart</span></a>
+					<a href="cart.php?cart=true"><span>Cart</span></a>
 				</li>
 
 			</ul>
@@ -104,23 +104,7 @@
 
 							}
 
-							if (isset($_POST['product_id'])) {
-								$product_id = $_POST['product_id'];
-								$product = mysqli_query($dlink, "SELECT * FROM products WHERE id = $product_id");
-								$product = mysqli_fetch_assoc($product);
-								$product_cart = [
-									'id' => $product_id,
-									'name' => $product['name'],
-									'description' => $product['description'],
-									'images' => $product['images'],
-									'qty' => $product['qty'],
-									'currprice' => $product['currprice']
-								];
-								if (!in_array($product_cart, $products_cart)) {
-									$products_cart[] = $product_cart;
-								}
-								setcookie('products_cart', serialize($products_cart), time() + 3600, '/');
-							}
+
 
 							echo '</ul>';
 							echo '</div>';
@@ -128,6 +112,63 @@
 						}
 
 
+						$carted_prod = $_REQUEST['product_id'] ?? null;
+						$product_query2 = "SELECT * FROM products";
+						$product_search2 = mysqli_query($dlink, $product_query2);
+
+						$product_list = mysqli_fetch_all($product_search2, MYSQLI_ASSOC);
+						foreach ($product_list as $key => $product) {
+							$product_id = $product['id'];
+							$product_category = $product['category'];
+							$product_name = $product['name'];
+							$product_description = $product['description'];
+							$product_image = $product['images'];
+							$product_quantity = $product['id'];
+							$product_price = $product['currprice'] > 0 ? $product['currprice'] : $product['lastprice'];
+							if ($carted_prod == $product_id) {
+								/**
+								 * Checks if product id is in products_cart and gets the key for the array containing said product
+								 */
+								$in_cart = false;
+								foreach ($products_cart as $key2 => $product2) {
+									if ($product_id == $product2['id']) {
+										$in_cart = true;
+										$cart_id = $key2;
+									}
+								}
+
+								/**
+								 * adds newly carted product to products_cart, with quantity 1
+								 * 
+								 * if product is already in products_cart, increments quantity by 1
+								 */
+								if ($in_cart === false) {
+									$products_cart[] = [
+										'id' => $product_id,
+										'category' => $product_category,
+										'name' => $product_name,
+										'description' => $product_description,
+										'image' => $product_image,
+										'fromDB_qty' => $product_quantity,
+										'price' => $product_price,
+										'cart_qty' => 1
+									];
+								} else {
+									$carted_quantity = $products_cart[$cart_id]['cart_qty'];
+									$products_cart[$cart_id] = [
+										'id' => $product_id,
+										'category' => $product_category,
+										'name' => $product_name,
+										'description' => $product_description,
+										'image' => $product_image,
+										'fromDB_qty' => $product_quantity,
+										'price' => $product_price,
+										'cart_qty' => $carted_quantity + 1
+									];
+								}
+								setcookie("products_cart", serialize($products_cart), time() + 86400, '/');
+							}
+						}
 
 						?>
 
