@@ -22,17 +22,13 @@
 					<a href="products.php"><span>Products</span></a>
 				</li>
 				<li class="register">
-					<?php
-					if (isset($_COOKIE['email']) && isset($_COOKIE['type'])) {
-						echo '<a>Welcome! (' . $_COOKIE['type'] . ') ' . $_COOKIE['email'] . '</a>';
-					} else {
-						echo '<a>Welcome!</a>';
-					}
-					?>
+					<a href="orders.php"><span>My Orders</span></a>
+
 				</li>
 				<li class="logout">
-					<a href="cart.php?cart=true"><span>Cart</span></a>
+					<a href="cart.php"><span>Cart</span></a>
 				</li>
+
 
 			</ul>
 		</div>
@@ -94,7 +90,12 @@
 								echo '<a href="products.php"><img src="images/' . $product_image . '" alt="Image"></a>';
 								echo '<input type="hidden" name="product_id" value="' . $product_id . '">';
 								// echo '<h2 onclick="this.parentNode.submit(); return false;"><a href="?product_id=$product_id" >' . $product_name . "</a></h2>";
-								echo "<h2 onclick='this.parentNode.submit(); return false;'><a href='?product_id=$product_id'>$product_name</a></h2>";
+								if ($product_qty == 0) {
+									echo '<h2>' . $product_name . "</h2>";
+								} else {
+									echo "<h2 onclick='this.parentNode.submit(); return false;'><a href='?product_id=$product_id'>$product_name</a></h2>";
+
+								}
 								echo '</form>';
 								echo '<p>' . $product_description . '</p>';
 								echo '<p>Qty: ' . $product_qty . '</p>';

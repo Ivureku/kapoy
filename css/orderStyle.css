@@ -1,25 +1,14 @@
-/* Website template by freewebsitetemplates.com */
-#orderStatusesContainer {
-	overflow: auto;
-	margin-bottom: 20px;
-	display: inline-block;
+#body div div div div div {
+    background: none;
+    overflow: hidden;
+    padding: 0 40px 56px;
+    width: 880px;
 }
-
-#orderStatusesContainer::after {
-	content: "";
-	display: table;
-	clear: both;
-}
-
-#orderStatusesContainer a {
-	text-decoration: none;
-	background-color: #FFCDD2;
-	padding: 10px;
-	text-align: center;
-	font-size: large;
-	font-weight: 700;
-	float: left;
-	margin: 0 10px;
+#body div div div div {
+    margin: 0 auto;
+    /* min-height: 300px; */
+    /* padding: 0 0 40px; */
+    width: 960px;
 }
 body {
 	background: url(../images/bg-body.jpg) repeat left top;
@@ -211,12 +200,6 @@ p a:hover {
 	margin: 0;
 	padding: 0;
 }
-#body div div div div {
-	margin: 0 auto;
-	min-height: 300px;
-	padding: 0 0 40px;
-	width: 960px;
-}
 #body div div div div h1 {
 	color: #0a5382;
 	font-family: "Times New Roman", Times, serif;
@@ -287,12 +270,7 @@ p a:hover {
 #body div div div div ul li h2 a:hover {
 	background: url(../images/bg-prodname-hover.png) repeat-x;
 }
-#body div div div div div {
-	background: none;
-	overflow: hidden;
-	padding: 0 40px 56px;
-	width: 880px;
-}
+
 #body div div div div div h3 {
 	color: #056f76;
 	font-size: 16px;
@@ -540,4 +518,16 @@ caption {
 #myOrder td {
 	background-color: #ffe6e6;
 }
-
+#orderStatusesContainer {
+	overflow: auto;
+	margin-bottom: 20px;
+	display: inline-block;
+}
+#orderStatusesContainer a {
+	text-decoration: none;
+	text-align: center;
+	font-size: large;
+	font-weight: 700;
+	float: left;
+	margin: 0 10px;
+}
